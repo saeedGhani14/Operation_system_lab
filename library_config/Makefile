@@ -47,5 +47,5 @@ install:
 	sudo mv $(app) $(perfix)
 	# sudo install -m 755 $(perfix) $(app)
 uninstall:
-	rm -rf $(perfix)
+	sudo rm -rf $(perfix)
 

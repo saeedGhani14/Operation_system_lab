@@ -18,7 +18,6 @@ int main(int argc, char *argv[]){
   int check_result;
   struct info *information;
 
-
   if (!strcmp(option, "-t") || !strcmp(option, "-c")){
     char *permission = argv[3];
     int perm = strtol(permission, &endptr, 8);
@@ -27,7 +26,6 @@ int main(int argc, char *argv[]){
     }else{
       createFileWithPermission(path, perm);
     }
-
   }else if (!strcmp(option, "-s")){
     information = showFileInfo(path);
     printf("------------------\n");

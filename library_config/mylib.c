@@ -35,5 +35,12 @@ struct info* showFileInfo(const char *path){
 }
 
 void createFileList(const char *dirpath, const char *prefix, const char *ext, int from, int to){
-  printf("create file list\n");
+  char tmp[255];
+  for(int i = from; i <= to; i++){
+    sprintf(tmp, "%s%s_%d.%s\n", dirpath, prefix, i, ext);
+    int file = open(tmp, O_CREAT | O_TRUNC | O_WRONLY, 0666);
+    chmod(tmp, 0644);
+    close(file);
+    printf("%s", tmp);
+  }
 }

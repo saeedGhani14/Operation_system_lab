@@ -1,4 +1,4 @@
-#include "static.h"
+#include "mylib.h"
 struct info {
     uid_t userId;           // User ID
     char *time;             // Time as string

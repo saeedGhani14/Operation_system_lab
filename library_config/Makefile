@@ -1,40 +1,51 @@
+CC=gcc
+perfix=/usr/local/bin/
+app=main
+AR=ar
+path=./
+
 all: 
 
-static: st_static.o libstatic.a 
-	gcc main.c -L./ -lstatic -o main
+#Static library
+static: StaticMylib.o libStaticMylib.a 
+	$(CC) main.c -L$(path) -lStaticMylib -o $(app)
 
-libstatic.a: st_static.o
-	ar -r libstatic.a st_static.o
+libStaticMylib.a: StaticMylib.o
+	$(AR) -r libStaticMylib.a StaticMylib.o
 
-st_static.o:
-	gcc -c static.c -o st_static.o
+StaticMylib.o:
+	$(CC) -c mylib.c -o StaticMylib.o
 
-st_clean:
-	rm -rf main.o static.o main libstatic.a
+static_clean:
+	rm -rf main.o StaticMylib.o main libStaticMylib.a
 
-dynamic: dystatic.o libdystatic.so
-	gcc main.c -L./ -ldystatic -o main
 
-libdystatic.so: dystatic.o
-	gcc -shared dystatic.o -o libdystatic.so
-dystatic.o:
-	gcc -c -fPIC static.c -o dystatic.o
-dy_clean:
-	rm -rf main dystatic.o libdystatic.so
 
-main: static.o main.o
-	gcc -c static.o main.o -o main
-static.o:
-	gcc -c static.c -o static.o
+# Dynamic library
+dynamic: libDyMylib.so
+	$(CC) main.c -L$(path) -lDyMylib -o $(app)
+
+libDyMylib.so: dyMylib.o
+	$(CC) -shared dyMylib.o -o libDyMylib.so
+
+dyMylib.o:
+	$(CC) -c -fPIC mylib.c -o dyMylib.o
+
+dynamic_clean:
+	rm -rf $(app) dyMylib.o libDyMylib.so
+
+#regular make 
+main: mylib.o main.o
+	$(CC) -c mylib.o main.o -o $(app)
+mylib.o:
+	$(CC) -c mylib.c -o mylib.o
 main.o:
-	gcc -c main.c -o main.o
+	$(CC) -c main.c -o main.o
 clean:
-	rm -rf main.o main static.o
-
+	rm -rf main.o main mylib.o
 install:
-	sudo mv main /usr/local/bin/main
-	sudo install -m 755 main /usr/local/bin/
-
+	sudo mv $(app) $(perfix)
+	# sudo install -m 755 $(perfix) $(app)
 uninstall:
-	rm -rf /usr/local/bin/main
+	rm -rf $(perfix)
 

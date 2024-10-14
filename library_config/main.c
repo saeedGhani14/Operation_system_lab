@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "static.h"
+#include "mylib.h"
 // Define the struct here
 struct info {
     uid_t userId;           // User ID
@@ -40,5 +40,4 @@ int main(int argc, char *argv[]){
     int to = strtol(argv[6], &endptr, 10);
     createFileList(path, argv[3], argv[4], from, to);
   }
-
 }
